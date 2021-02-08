@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
-function App() {
+import Location from "./components/Location";
+import SpareDetails from "./components/SpareDetails";
+
+const App = () => {
+  const [location, setLocation] = useState("");
+  const [locationError, setLocationError] = useState(false);
+  const [locationSaved, setLocationSaved] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (location.toLowerCase() !== "mumbai") {
+      setLocationError(true);
+    } else {
+      setLocationError(false);
+      setLocationSaved(true);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!locationSaved ? (
+        <Location
+          location={location}
+          locationError={locationError}
+          setLocation={setLocation}
+          handleSubmit={handleSubmit}
+        />
+      ) : (
+        <SpareDetails />
+      )}
     </div>
   );
-}
+};
 
 export default App;
